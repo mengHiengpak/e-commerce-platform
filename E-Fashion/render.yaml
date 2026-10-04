@@ -1,0 +1,26 @@
+# Render blueprint.
+#
+# The deployed service had no `MONGODB_URI`, and because every read degrades to
+# empty data rather than erroring, that showed up as a working site with an empty
+# catalog and nothing to explain it.
+#
+# `sync: false` makes Render list this variable in the dashboard as one you must
+# fill in yourself, instead of taking a committed value. Paste the connection
+# string there, then redeploy.
+#
+# `healthCheckPath` points at the diagnostic route, which answers 503 while the
+# database is unreachable or unseeded — so Render restarts the service instead of
+# reporting a broken site as healthy.
+
+services:
+  - type: web
+    name: e-commerces-with-next-js
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: MONGODB_URI
+        sync: false

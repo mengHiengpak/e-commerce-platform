@@ -1,0 +1,48 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --height-90: 22.5rem;
+  --height-100: 25rem;
+  --height-105: 26.25rem;
+  --height-110: 27.5rem;
+  --height-130: 32.5rem;
+  --height-135: 33.75rem;
+  --height-150: 37.5rem;
+  --margin-95: 23.75rem;
+  --margin-105: 26.25rem;
+  --margin-115: 28.75rem;
+  --margin-135: 33.75rem;
+}
+
+body {
+  background-color: #E5E7EB; /* Tailwind's default gray-100 */
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* `clip` instead of `hidden` so no scroll container is created and position:
+   fixed (the mobile sidebar drawer) is unaffected. */
+html {
+  overflow-x: clip;
+}
+
+/* Flex/grid children default to min-width:auto, which stops them shrinking below
+   their content width. Wide tables then push the whole page sideways on phones.
+   :where() keeps specificity at 0 so Tailwind utilities can still override. */
+:where(.app-shell, .app-shell > *) {
+  min-width: 0;
+}
+
+/* Wide tables scroll inside their own container instead of crushing columns. */
+:where(.table-scroll) {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+:where(.table-scroll) > table {
+  min-width: 40rem;
+}
